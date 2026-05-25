@@ -1,4 +1,7 @@
-# OMIXIS
+<h1>
+  <img src="./logo.png" width="42" align="center">
+  OMIXIS
+</h1>
 
 **OMIXIS** is a graphical platform for LC–MS metabolomics data processing.  
 It integrates peak detection, peak quality assessment, and feature alignment into a structured local workflow, helping users generate feature tables for downstream statistical analysis and machine learning.
@@ -29,6 +32,7 @@ The platform is designed to reduce repetitive manual operations, avoid unnecessa
   Generates feature tables for downstream statistical analysis, machine learning, and biomarker discovery.
 
 ## Workflow Overview
+<img src="./workflow.png" width="100%" align="center">
 
 The OMIXIS workflow consists of three main quantitation modules:
 
