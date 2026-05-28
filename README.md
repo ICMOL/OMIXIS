@@ -45,21 +45,3 @@ The OMIXIS workflow consists of three main quantitation modules:
 3. **MS-Aligner**  
    Aligns detected features across samples and produces a structured feature table.
 
-## Download and Run
-
-The recommended way to use OMIXIS is to download the pre-built Windows executable from the [Releases](../../releases) page.
-
-### For Windows Users
-
-1. Go to the [Releases](../../releases) page.
-2. Download the latest `.exe` file.
-3. Run the downloaded file and follow the installation instructions.
-4. Launch OMIXIS and start the analysis workflow.
-
-When using the packaged application, regular users do not need to manually install Node.js, Python, or Java.
-
-OMIXIS runs locally on a personal computer, which helps reduce upload time and avoids unnecessary transfer of large raw LC–MS datasets to external servers.
-
-### Windows Security Notice
-
-If Windows displays a security warning when opening the application, it may be because the executable has not been code-signed. Please make sure you download OMIXIS only from the official GitHub Releases page.
