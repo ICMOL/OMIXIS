@@ -8,11 +8,11 @@ It integrates peak detection (MS-Picker), peak quality assessment (MS-Point), an
 
 ## Overview
 
-LC–MS metabolomics analysis often requires users to operate multiple preprocessing tools, adjust parameters manually, and transfer large raw datasets between different environments. These steps can increase the technical burden for users and make the workflow less efficient.
+LC–MS metabolomics workflows often involve multiple preprocessing tools, manual parameter tuning, and repeated transfer of large raw datasets between different environments. These fragmented processes can slow down analysis and create unnecessary technical barriers.
 
-OMIXIS provides an integrated local workflow for metabolomics data preparation. Through a graphical user interface, users can process raw LC–MS data, evaluate peak quality, align detected features, and export structured feature tables for downstream analysis.
+OMIXIS streamlines metabolomics data preparation through an integrated local workflow. With an intuitive graphical interface, users can process raw LC–MS data, evaluate peak quality, perform feature alignment, and generate structured feature tables ready for downstream analysis.
 
-The platform is designed to reduce repetitive manual operations, avoid unnecessary upload of large raw datasets, and make metabolomics preprocessing more accessible to users without extensive programming experience.
+By reducing repetitive manual steps and eliminating unnecessary data transfers, OMIXIS delivers a more efficient, secure, and user-friendly preprocessing experience — making advanced metabolomics analysis accessible to researchers without extensive programming expertise.
 
 ## Key Features
 
