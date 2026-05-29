@@ -4,7 +4,7 @@
 </h1>
 
 **OMIXIS** is a graphical platform for LC–MS metabolomics data processing.  
-It integrates peak detection, peak quality assessment, and feature alignment into a structured local workflow, helping users generate feature tables for downstream statistical analysis and machine learning.
+It integrates peak detection (MS-Picker), peak quality assessment (MS-Point), and feature alignment (MS-Aligner) into a structured local workflow, helping users generate feature tables for downstream statistical analysis and machine learning.
 
 ## Overview
 
