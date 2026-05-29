@@ -36,15 +36,15 @@ By reducing repetitive manual steps and eliminating unnecessary data transfers, 
 
 The OMIXIS workflow consists of three main quantitation modules:
 
-1. **MS-Picker**  (https://github.com/ICMOL/MS-Picker)
+1. [**MS-Picker**](https://github.com/ICMOL/MS-Picker)
    
    Detects metabolite peaks from LC–MS data and extracts feature-level information.
 
-2. **MS-Point**  (https://github.com/ICMOL/MS-Point)
+2. [**MS-Point**](https://github.com/ICMOL/MS-Point)
    
    Evaluates detected peaks using peak quality metrics and generates a quality score for each feature.
 
-3. **MS-Aligner**  (https://github.com/ICMOL/MS-Aligner)
+3. [**MS-Aligner**](https://github.com/ICMOL/MS-Aligner)
    
    Aligns detected features across samples and produces a structured feature table.
 
