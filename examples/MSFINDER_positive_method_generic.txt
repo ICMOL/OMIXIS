@@ -4,7 +4,7 @@
 # Use positive-ion mzML files only. RetentionTimeTolerance is used by OMIXIS
 # and is removed before MS-FINDER Console is launched.
 
-RetentionTimeTolerance=0.02
+RetentionTimeTolerance=0.5
 
 # Formula finder parameters
 LewisAndSeniorCheck=True
