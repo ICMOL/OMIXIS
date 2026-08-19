@@ -11,6 +11,10 @@ Untargeted LC-MS/MS analysis often requires separate tools for feature detection
 
 All processing is performed locally. No raw data need to be uploaded to an external service.
 
+## Workflow
+
+![OMIXIS workflow](./workflow.png)
+
 ## Key features
 
 - **Integrated quantitation pipeline**
