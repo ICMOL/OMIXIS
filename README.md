@@ -3,48 +3,57 @@
   OMIXIS
 </h1>
 
-**OMIXIS** is a graphical platform for LC–MS metabolomics data processing.  
-It integrates peak detection (MS-Picker), peak quality assessment (MS-Point), and feature alignment (MS-Aligner) into a structured local workflow, helping users generate feature tables for downstream statistical analysis and machine learning.
+**OMIXIS** is a local graphical platform for LC-MS/MS metabolomics data processing. It integrates peak detection, peak-quality assessment, feature alignment, and feature-guided MS/MS identification in one reproducible workflow.
 
 ## Overview
 
-LC–MS metabolomics workflows often involve multiple preprocessing tools, manual parameter tuning, and repeated transfer of large raw datasets between different environments. These fragmented processes can slow down analysis and create unnecessary technical barriers.
+Untargeted LC-MS/MS analysis often requires separate tools for feature detection, alignment, MS/MS-spectrum extraction, and compound annotation. OMIXIS keeps these steps in one local desktop workflow: raw mzML files are processed into an aligned quantitation feature table, experimental MS/MS spectra are linked to the corresponding features by precursor m/z and retention time, and matched spectra are annotated with MS-FINDER.
 
-OMIXIS streamlines metabolomics data preparation through an integrated local workflow. With an intuitive graphical interface, users can process raw LC–MS data, evaluate peak quality, perform feature alignment, and generate structured feature tables ready for downstream analysis.
+All processing is performed locally. No raw data need to be uploaded to an external service.
 
-By reducing repetitive manual steps and eliminating unnecessary data transfers, OMIXIS delivers a more efficient, secure, and user-friendly preprocessing experience — making advanced metabolomics analysis accessible to researchers without extensive programming expertise.
+## Workflow
 
-## Key Features
+![OMIXIS workflow](./workflow.png)
 
-- **Graphical workflow**  
-  Provides an intuitive interface for operating LC–MS metabolomics preprocessing modules.
+## Key features
 
-- **Local execution**  
-  Runs directly on a personal computer, reducing upload time and potential data exposure risks.
+- **Integrated quantitation pipeline**
+  Combines MS-Picker, MS-Point, and MS-Aligner to produce an aligned feature-level quantitation table.
 
-- **Integrated quantitation pipeline**  
-  Combines peak detection, peak quality assessment, and feature alignment in a structured workflow.
+- **Feature-guided MS/MS identification**
+  Converts experimental MS/MS spectra to MSP files, matches them to aligned features using precursor m/z and retention time, and submits only matched spectra to MS-FINDER.
 
-- **Peak quality assessment**  
-  Uses multiple peak quality metrics to support feature reliability evaluation.
+- **Feature-level identification output**
+  Returns the highest-scoring MS-FINDER annotation to the original quantitation feature table, including compound name, score, InChIKey, and matched MSP filename.
 
-- **Structured output**  
-  Generates feature tables for downstream statistical analysis, machine learning, and biomarker discovery.
+- **Optional authentic-standard evidence**
+  Supports an authentic-standard list containing m/z, retention time, and molecular formula. The list is used for MSI Level 1/2 evidence classification; it is not required for MS-FINDER annotation.
 
-## Workflow Overview
-<img src="./workflow.png" width="100%" align="center">
+- **Polarity-aware processing**
+  Positive and negative ion data are processed separately. Mixed-polarity mzML input is rejected.
 
-The OMIXIS workflow consists of three main quantitation modules:
+- **Local execution and reproducibility**
+  Run parameters and identification configuration are saved with each result folder.
 
-1. [**MS-Picker**](https://github.com/ICMOL/MS-Picker)
-   
-   Detects metabolite peaks from LC–MS data and extracts feature-level information.
+## Workflow modules
 
-2. [**MS-Point**](https://github.com/ICMOL/MS-Point)
-   
-   Evaluates detected peaks using peak quality metrics and generates a quality score for each feature.
+1. [**MS-Picker**](https://github.com/ICMOL/MS-Picker) detects chromatographic features from LC-MS data.
+2. [**MS-Point**](https://github.com/ICMOL/MS-Point) evaluates peak quality.
+3. [**MS-Aligner**](https://github.com/ICMOL/MS-Aligner) aligns features across samples and produces the quantitation feature table.
+4. **Identification** links aligned features to experimental MS/MS spectra and uses MS-FINDER for formula and structure annotation.
 
-3. [**MS-Aligner**](https://github.com/ICMOL/MS-Aligner)
-   
-   Aligns detected features across samples and produces a structured feature table.
+## Identification documentation
 
+- [Identification workflow](docs/identification.md)
+- [MS-FINDER method guide](docs/msfinder-method-guide.md)
+- [Standard-list format and MSI evidence](docs/standard-list-format.md)
+
+## Example files
+
+- [Generic positive-ion MS-FINDER method](examples/MSFINDER_positive_method_generic.txt)
+- [Generic negative-ion MS-FINDER method](examples/MSFINDER_negative_method_generic.txt)
+- [Standard-list example](examples/standard_list_example.txt)
+
+## Scope
+
+OMIXIS reports computational annotations and their supporting evidence. A high MS-FINDER score or MSI Level 2 result is not equivalent to confirmation by an authentic standard. Use an authentic-standard comparison under matched analytical conditions when a confirmed identification is required.
