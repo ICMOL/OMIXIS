@@ -1,0 +1,80 @@
+# Generic positive-ion LC-MS/MS DDA starting method for OMIXIS / MS-FINDER v3.61
+# This is a starting template, not an instrument-calibration file.
+# Validate MS1/MS2 tolerance with known compounds or QC data before formal analysis.
+# Use positive-ion mzML files only. RetentionTimeTolerance is used by OMIXIS
+# and is removed before MS-FINDER Console is launched.
+
+RetentionTimeTolerance=0.02
+
+# Formula finder parameters
+LewisAndSeniorCheck=True
+Ms1Tolerance=0.1
+IsotopicAbundanceTolerance=0.005
+MassToleranceType=Da
+CommonRange=TRUE
+ExtendedRange=FALSE
+ExtremeRange=FALSE
+ElementProbabilityCheck=True
+Ocheck=True
+Ncheck=True
+Pcheck=True
+Scheck=True
+Fcheck=False
+ClCheck=False
+BrCheck=False
+Icheck=False
+SiCheck=False
+IsTmsMeoxDerivative=False
+MinimumTmsCount=0
+MinimumMeoxCount=0
+FormulaMaximumReportNumber=10
+
+# Structure finder parameters
+TreeDepth=2
+Ms2Tolerance=0.1
+RelativeAbundanceCutOff=5
+StructureMaximumReportNumber=5
+IsUseEiFragmentDB=False
+
+# All bundled local structure databases. Online retrieval remains disabled.
+MinesNeverUse=True
+MinesOnlyUseForNecessary=False
+MinesAllways=False
+PubChemNeverUse=True
+PubChemOnlyUseForNecessary=False
+PubChemAllways=False
+HMDB=True
+YMDB=True
+PubChem=True
+SMPDB=True
+UNPD=True
+ChEBI=True
+PlantCyc=True
+KNApSAcK=True
+BMDB=True
+FooDB=True
+ECMDB=True
+DrugBank=True
+T3DB=True
+STOFF=True
+NANPDB=True
+IsUserDefinedDB=False
+UserDefinedDbFilePath=
+
+# Spectral database search
+IsRunSpectralDbSearch=True
+IsRunInSilicoFragmenterSearch=True
+IsPrecursorOrientedSearch=True
+IsUseInternalExperimentalSpectralDb=True
+IsUseInSilicoSpectralDbForLipids=False
+IsUseUserDefinedSpectralDb=False
+UserDefinedSpectralDbFilePath=
+SolventType=CH3COONH4
+MassRangeMin=50
+MassRangeMax=1250
+
+# Batch job
+AllProcess=True
+FormulaFinder=True
+StructureFinder=True
+TryTopNMolecularFormulaSearch=3
