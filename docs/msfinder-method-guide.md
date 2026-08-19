@@ -2,11 +2,12 @@
 
 This guide applies to **Untargeted Compound ID V2 in OMIXIS 2.0** and the bundled **MS-FINDER v3.61** console workflow. It explains the generic positive- and negative-ion method examples, OMIXIS-specific feature-to-spectrum matching settings, MS-FINDER formula and structure parameters, database selection, spectral-library search, batch settings, validation, and troubleshooting.
 
-> **Scope boundary:** `RetentionTimeTolerance` (or `RTTolerance`) is an OMIXIS feature-to-spectrum matching parameter, not a native MS-FINDER setting. OMIXIS removes it when creating `MSFINDER_method_effective.txt`. All other supported settings are passed to MS-FINDER.
+> **Scope boundary:** `RetentionTimeTolerance` (or `RTTolerance`) is an OMIXIS feature-to-MS2-spectrum matching parameter, not a native MS-FINDER setting. It does not control standard-list matching. OMIXIS removes it when creating `MSFINDER_method_effective.txt`. All other supported settings are passed to MS-FINDER.
 
 ## Quick conclusions
 
 - Feature-to-MSP matching is controlled by `Ms1Tolerance`, `MassToleranceType`, and `RetentionTimeTolerance`.
+- Standard-list-to-feature matching is independent: its m/z tolerance follows MS-Picker `mzWidth`, and its RT tolerance follows MS-Aligner `rttol` (default `0.5 min`).
 - `Ms2Tolerance` and `RelativeAbundanceCutOff` affect downstream MS/MS fragment matching, not the initial feature-to-MSP match.
 - Wider mass tolerances, more databases, higher candidate limits, and deeper fragmentation trees normally increase both candidate count and run time.
 - Use separate positive- and negative-ion method files. OMIXIS verifies polarity from mzML MS/MS metadata and rejects mixed-polarity input.
@@ -23,7 +24,8 @@ An MS-FINDER method is a plain-text `key=value` file. Blank lines are ignored. L
 3. Only spectra matching both precursor m/z and RT are written to the MS-FINDER input folder.
 4. OMIXIS creates `MSFINDER_method_effective.txt`, removes the custom RT setting, and passes the remaining method to MS-FINDER.
 5. MS-FINDER performs spectral-library search, molecular-formula prediction, and structure search according to the enabled settings.
-6. OMIXIS writes feature-level TSV results for the integrated Result Viewer.
+6. If a standard list was supplied, OMIXIS independently compares its m/z/RT records with the aligned features using MS-Picker `mzWidth` and MS-Aligner `rttol`.
+7. OMIXIS writes feature-level TSV results for the integrated Result Viewer.
 
 The matching rules are:
 
@@ -43,6 +45,7 @@ feature m/z * Ms1Tolerance * 10^-6
 | Purpose | Key settings | Processing stage |
 |---|---|---|
 | Feature-to-MSP matching | `Ms1Tolerance`, `MassToleranceType`, `RetentionTimeTolerance` | OMIXIS; determines which MSP spectra are submitted |
+| Standard-list-to-feature matching | MS-Picker `mzWidth`, MS-Aligner `rttol` | OMIXIS; supplies standard-list evidence independently of the method-file RT tolerance |
 | Molecular-formula candidates | `Ms1Tolerance`, isotope and element rules, `FormulaMaximumReportNumber` | MS-FINDER Formula finder |
 | MS/MS and structure candidates | `Ms2Tolerance`, `RelativeAbundanceCutOff`, `TreeDepth`, database settings | MS-FINDER spectral/structure search |
 
@@ -54,6 +57,8 @@ feature m/z * Ms1Tolerance * 10^-6
 | `RTTolerance` | Number; min | Alias of `RetentionTimeTolerance`; case, spaces, and underscores are normalized | Use one name only to avoid ambiguity |
 
 `Start RT (optional)` and `End RT (optional)` are feature-table columns, not method parameters. They are retained in the output, but current matching uses the central feature RT plus or minus `RetentionTimeTolerance`.
+
+Do not increase `RetentionTimeTolerance` merely to recover standard-list matches. In the integrated workflow, standard-list m/z matching uses MS-Picker `mzWidth`, while standard-list RT matching uses MS-Aligner `rttol` (default `0.5 min`). These values are passed separately from the Method file.
 
 ### 1.4 Required values and format validation
 
@@ -220,7 +225,7 @@ These settings control the MS-FINDER console batch stages. OMIXIS processes accu
 ## 7. Practical parameter-adjustment order
 
 1. Use well-calibrated known compounds or QC samples to estimate the observed MS1 and MS2 mass-error distributions, then choose `Ms1Tolerance`, `MassToleranceType`, and `Ms2Tolerance`.
-2. Measure chromatographic RT drift in the same data. `RetentionTimeTolerance` must cover plausible drift without matching many distinct co-eluting peaks at the same m/z.
+2. Measure the observed difference between aligned feature RT and DDA MS2 scan-start RT. `RetentionTimeTolerance` should cover this feature-to-MS2 discrepancy without matching many unrelated co-eluting spectra. Evaluate standard-list RT drift separately through the MS-Aligner `rttol` setting.
 3. Confirm that `RelativeAbundanceCutOff` does not remove important low-intensity diagnostic ions.
 4. Select elements, databases, and spectral libraries for the research domain. Start focused and broaden gradually so changes remain interpretable.
 5. Adjust `FormulaMaximumReportNumber`, `StructureMaximumReportNumber`, and `TryTopNMolecularFormulaSearch` last to balance recall and run time.
@@ -231,6 +236,7 @@ These settings control the MS-FINDER console batch stages. OMIXIS processes accu
 |---|---|---|
 | Almost no MSP matches a feature | m/z unit, feature RT, RT unit, ion mode | Confirm `MassToleranceType`; verify RT is in minutes; widen only from measured error evidence |
 | Too many MSP spectra match each feature | `Ms1Tolerance`, `RetentionTimeTolerance` | Narrow tolerances; inspect duplicated/co-eluting precursors |
+| Standard list has unexpectedly few m/z/RT matches | MS-Picker `mzWidth`, MS-Aligner `rttol`, RT units and analytical conditions | Do not widen Method `RetentionTimeTolerance`; verify the independent standard-list tolerances and reference RT applicability |
 | Too many formula candidates | `Ms1Tolerance`, range rules, element switches | Use a justified ppm/Da window, prefer `CommonRange`, disable impossible elements |
 | Structure search is very slow | Number of databases, `TreeDepth`, `TryTopN`, candidate limits | Reduce databases and candidate limits; validate with `TreeDepth=2` first |
 | Weak diagnostic ions are ignored | `RelativeAbundanceCutOff` | Lower the threshold while monitoring noise and false positives |
@@ -241,6 +247,7 @@ These settings control the MS-FINDER console batch stages. OMIXIS processes accu
 - [ ] The method file matches the positive or negative polarity of the selected mzML files.
 - [ ] `Ms1Tolerance` is positive and `MassToleranceType` is explicitly `Da` or `Ppm`.
 - [ ] `RetentionTimeTolerance` and feature-table RT are both expressed in minutes.
+- [ ] If a standard list is used, its RT values are in minutes and the MS-Aligner `rttol` is appropriate for the matching chromatography and conditions.
 - [ ] Exactly one of `CommonRange`, `ExtendedRange`, and `ExtremeRange` is enabled.
 - [ ] Exactly one strategy is enabled in each `Mines*` and `PubChem*` group.
 - [ ] Every enabled custom structure/spectral database path exists and matches the intended ion mode.
@@ -259,7 +266,8 @@ For reproducibility, place at least the ion mode, instrument/method, validation 
 # Validated on: YYYY-MM-DD
 # Edited by: [name or role]
 # MS1/MS2 tolerance basis: [describe]
-# RT tolerance basis: [describe]
+# Feature-to-MS2 RT tolerance basis: [describe]
+# Standard-list RT tolerance basis (MS-Aligner rttol): [describe if used]
 # Database/spectral-library version: [describe]
 RetentionTimeTolerance=0.02
 ```
@@ -269,4 +277,3 @@ RetentionTimeTolerance=0.02
 - [MS-FINDER tutorial: parameter settings and data sources](https://systemsomicslab.github.io/mtbinfo.github.io/MS-FINDER/tutorial)
 - [MS-FINDER console application](https://systemsomicslab.github.io/compms/msfinder/consoleapp.html)
 - [CompMS and MS-FINDER information](https://systemsomicslab.github.io/compms/index.html)
-
