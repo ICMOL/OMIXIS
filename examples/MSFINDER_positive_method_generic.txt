@@ -1,10 +1,12 @@
 # Generic positive-ion LC-MS/MS DDA starting method for OMIXIS / MS-FINDER v3.61
 # This is a starting template, not an instrument-calibration file.
 # Validate MS1/MS2 tolerance with known compounds or QC data before formal analysis.
-# Use positive-ion mzML files only. RetentionTimeTolerance is used by OMIXIS
-# and is removed before MS-FINDER Console is launched.
+# Use positive-ion mzML files only.
+# RetentionTimeTolerance controls OMIXIS feature-to-MS2 matching only.
+# It does not control standard-list matching and is removed before
+# MS-FINDER Console is launched.
 
-RetentionTimeTolerance=0.5
+RetentionTimeTolerance=0.02
 
 # Formula finder parameters
 LewisAndSeniorCheck=True
