@@ -3,7 +3,7 @@
   OMIXIS
 </h1>
 
-**OMIXIS** is a local graphical platform for LC-MS/MS metabolomics data processing. It integrates peak detection, peak-quality assessment, feature alignment, and feature-guided MS/MS identification in one reproducible workflow.
+**OMIXIS** is a local graphical platform for LC-MS/MS untargeted metabolomics data processing. It integrates peak detection, peak-quality assessment, feature alignment, and feature-guided MS/MS identification in one reproducible workflow.
 
 ## Overview
 
